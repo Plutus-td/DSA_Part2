@@ -14,6 +14,7 @@ typedef struct SinhVien sinhvien;
 void nhap_1_sv (sinhvien &sv);
 void xuat_1_sv (sinhvien sv);
 void nhap (sinhvien a[],int &n);
+void xuat (sinhvien a[],int n);
 void tim_kiem (sinhvien a[],int n);
 void sv_max_age (sinhvien a[],int n);
 void sv_min_age (sinhvien a[],int n);
