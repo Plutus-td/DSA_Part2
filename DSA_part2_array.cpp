@@ -86,8 +86,10 @@ void sv_max_age (sinhvien a[],int n)
     for (int i = 0; i < n; i++)
     {
         if (a[i].age > max.age)
-        xuat_1_sv (a[i]);
+           max = a[i];
     }
+
+    xuat_1_sv (max);
 }
 
 void sv_min_age (sinhvien a[],int n)
@@ -98,10 +100,11 @@ void sv_min_age (sinhvien a[],int n)
     {
         if (a[i].age < min.age)
         {
-            
-            xuat_1_sv(a[i]);
+            min = a[i];
         }
     }
+
+    xuat_1_sv(min);
 }
 
 void sap_xep (sinhvien a[],int n)
