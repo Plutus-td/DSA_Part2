@@ -39,7 +39,7 @@ node create_node (int x)
 }
 
 //thêm node p vào đầu danh sách
-void add_first (list &L,node &p)
+void add_first (list &L,node p)
 {
     //danh sách đang rỗng
     if (L.head == NULL)
@@ -68,6 +68,105 @@ void add_last (list &L,node p)
     }
 }
 
+int size (list &L)
+{
+    node head = L.head;
+    int count;
+    while (head != NULL)
+    {
+        ++count;
+        head = head->next;
+    }
+    return count; 
+}
+
+void add_any_position (list &L,int k,node p)
+{
+   int n = size(L);
+   if (k < 1 || k > n + 1)
+   {
+    cout << "Vi tri nhap khong hop le !";
+    return;
+   }
+   if (k == 1)
+   {
+    add_first(L,p);
+   }
+   node temp  = L.head;
+   for (int i = 1; i <= k - 2; i++ )
+   {
+      temp = temp->next;
+   }
+   // node temp đang ở vị trí thứ k - 1
+   //temp->next đang trỏ tới vị trí thứ k 
+   p->next = temp->next;
+   temp->next = p;
+}
+
+void delete_first (list &L)
+{
+    if (L.head == NULL)
+    {
+        return;
+    }
+
+    node p = L.head;
+    L.head = L.head->next;
+    delete p;
+}
+
+void delete_last (list &L)
+{
+    if (L.head == NULL)
+    {
+        return;
+    }
+    
+    if (L.head->next == NULL)
+    {
+        delete_first(L);
+        return;
+    }
+
+    for (node k = L.head; k != NULL; k = k->next)
+    {
+        if (k->next == L.tail)
+        {
+            delete L.tail;  //xóa đi phần tử cuối
+            k->next = NULL; //cho con trỏ node kế cuối trỏ đến vùng nhớ NULL
+            L.tail = k;
+			return;     //cập nhật lại tail
+        }
+    }
+}
+
+void delete_any_position (list &L,int k)
+{
+   int n = size(L);
+   
+   if (k < 1 || k > n)
+   {
+        cout << "Vi tri xoa khong hop le !";
+        return;
+   }
+
+   if (k == 1)
+   {
+        delete_first(L);
+        return;
+   }
+   node temp = L.head;
+   for (int i = 1; i <= k - 2; i++)
+   {
+        temp = temp->next;
+   }
+   //temp ở vị trí thứ k - 1
+
+   node vi_tri_k = temp->next; //node thứ k
+   temp->next = vi_tri_k->next; //cho k - 1 => kết nối với node k + 1 
+   delete vi_tri_k;
+}
+
 void output_linked_list (list &L)
 {
     for (node k = L.head; k != NULL; k = k->next)
@@ -82,18 +181,24 @@ void menu (list &L)
     while (1)
     {
         system ("cls");
-        cout << "\n\t\t================= MENU =================";
-        cout << "\n\t1.Them node vao danh sach";
-        cout << "\n\t2.Xuat danh sach lien ket don";
-        cout << "\n\t0.Thoat";
-        cout << "\n\t\t================= END =================";
+        cout << "\t\t================== MENU ==================\n";
+        cout << "\t\t1.Them node vao danh sach\n";
+        cout << "\t\t2.Them node vao dau danh sach\n";
+        cout << "\t\t3.Them node vao cuoi danh sach\n";
+        cout << "\t\t4.Them node vao vi tri bat ki\n";
+        cout << "\t\t5.Xoa node dau danh sach\n";
+        cout << "\t\t6.Xoa node cuoi danh sach\n";
+        cout << "\t\t7.Xoa node o vi tri bat ki\n";
+        cout << "\t\t8.Xuat danh sach lien ket don\n";
+        cout << "\t\t0.Thoat\n";
+        cout << "\t\t================== END ==================";
 
         cout << "\nNhap lua chon: ";
         cin >> lua_chon;
         
-        if (lua_chon < 0 || lua_chon > 3)
+        if (lua_chon < 0 || lua_chon > 9)
         {
-            cout << "Nhung lua chon khong hop le";
+            cout << "Lua chon khong hop le";
             system ("pause"); //dừng màn hình
         }
         else if (lua_chon == 1)
@@ -106,7 +211,48 @@ void menu (list &L)
         }
         else if (lua_chon == 2)
         {
-            output_linked_list (L);
+            int x;
+            cout << "Nhap gia tri them vao dau: ";
+            cin >> x;
+            node p = create_node(x); 
+            add_first(L,p);
+        }
+        else if (lua_chon == 3)
+        {
+            int x;
+            cout << "Nhap gia tri them vao cuoi: ";
+            cin >> x;
+            node p = create_node(x); 
+            add_last(L,p);
+        }
+        else if (lua_chon == 4)
+        {
+            int x,k;
+            cout << "Nhap vi tri muon them: ";
+            cin >> k;
+            cout << "Nhap gia tri muon them vao vi tri thu " << k << ": ";
+            cin >> x;
+            node p = create_node(x); 
+            add_any_position(L,k,p);
+        }
+        else if (lua_chon == 5)
+        {
+            delete_first(L);            
+        }
+        else if (lua_chon == 6)
+        {
+            delete_last(L);
+        }
+        else if (lua_chon == 7)
+        {
+            int k;
+            cout << "Nhap vi tri muon xoa ";
+            cin >> k;
+            delete_any_position(L,k);
+        }
+        else if (lua_chon == 8)
+        {
+            output_linked_list(L);
             system ("pause");
         }
         else
@@ -122,6 +268,7 @@ int main()
     KhoiTaoDSL (L); //luôn luôn gọi hàm khởi tạo DSLK đơn trước khi thao tác với danh sách
     menu(L);
     system ("pause");
+    return 0;
 }
 
 
