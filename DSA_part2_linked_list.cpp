@@ -160,7 +160,7 @@ void change_place (list &L)
     
     int i = 0;
 
-    for (node k = L.head; k != NULL; k = k->next)
+    for (node k = L.head; k->next != L.tail; k = k->next)
     {
         int j = i + 1;
         for (node p = L.head->next; p != NULL; p = p->next)
