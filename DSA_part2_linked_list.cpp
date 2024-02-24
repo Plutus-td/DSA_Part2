@@ -130,21 +130,6 @@ void youngest_student (list &L)
     output_1_sv(min);
 }
 
-
-int size (list &L)
-{
-    node p = L.head;
-    int count;
-    
-    while (p != NULL)
-    {
-        count++;
-        p = p->next;
-    }
-
-    return count;
-}
-
 void swap (sinhvien &a,sinhvien &b)
 {
     sinhvien tmp = a;
